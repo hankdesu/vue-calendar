@@ -6,8 +6,21 @@ enum OPERATIONS {
   INCREMENT,
 }
 const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-const selectedDate = ref(new Date())
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+]
+const selectedDate = ref<Date | null>(null)
 const year = ref(new Date().getFullYear())
 const month = ref(new Date().getMonth())
 const daysOfMonth = computed(() =>
@@ -16,6 +29,18 @@ const daysOfMonth = computed(() =>
     : [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 )
 const firstDayOfMonth = computed(() => new Date(`${year.value}-${month.value + 1}-01`).getDay())
+const activeDate = computed(() => {
+  if (!selectedDate.value) return null
+
+  if (
+    selectedDate.value.getFullYear() !== year.value ||
+    selectedDate.value.getMonth() !== month.value
+  ) {
+    return null
+  }
+
+  return selectedDate.value.getDate()
+})
 
 function onYearClick(operation: OPERATIONS) {
   if (operation === OPERATIONS.INCREMENT) {
@@ -40,12 +65,6 @@ function onMonthClick(operation: OPERATIONS) {
   }
 }
 
-function isActive(n: number) {
-  const date = new Date(year.value, month.value, n)
-
-  return selectedDate.value.getTime() === date.getTime()
-}
-
 function isToday(n: number) {
   const date = new Date(year.value, month.value, n)
   const today = new Date()
@@ -59,7 +78,12 @@ function isToday(n: number) {
 
 function onDateClick(n: number) {
   const date = new Date(year.value, month.value, n)
-  selectedDate.value = date
+
+  if (date.getTime() === selectedDate.value?.getTime()) {
+    selectedDate.value = null
+  } else {
+    selectedDate.value = date
+  }
 }
 </script>
 
@@ -69,16 +93,16 @@ function onDateClick(n: number) {
       <div class="container">
         <div class="header">
           <div class="btn-group">
-            <button @click="onYearClick(OPERATIONS.DECREMENT)">&lt;&lt;</button>
-            <button @click="onMonthClick(OPERATIONS.DECREMENT)">&lt;</button>
+            <button @click="onYearClick(OPERATIONS.DECREMENT)">Prev year</button>
+            <button @click="onMonthClick(OPERATIONS.DECREMENT)">Prev month</button>
           </div>
           <div class="info">
             <span>{{ year }}</span>
             <span>{{ months[month] }}</span>
           </div>
           <div class="btn-group">
-            <button @click="onMonthClick(OPERATIONS.INCREMENT)">></button>
-            <button name="increment" @click="onYearClick(OPERATIONS.INCREMENT)">>></button>
+            <button @click="onMonthClick(OPERATIONS.INCREMENT)">Next month</button>
+            <button name="increment" @click="onYearClick(OPERATIONS.INCREMENT)">Next year</button>
           </div>
         </div>
         <div class="content">
@@ -88,7 +112,7 @@ function onDateClick(n: number) {
           <div class="date" v-for="(_, index) in firstDayOfMonth" :key="index"></div>
           <div
             class="date clickable"
-            :class="{ active: isActive(n), today: isToday(n) }"
+            :class="{ active: n === activeDate, today: isToday(n) }"
             v-for="n in daysOfMonth[month]"
             :key="n"
             @click="onDateClick(n)"
@@ -116,12 +140,13 @@ function onDateClick(n: number) {
 .container {
   height: 50vh;
   width: 50vw;
-  box-shadow: 5px 3px 15px -5px #a5a5a5;
+  box-shadow: 7px 3px 30px 3px #e7f4ff;
   display: flex;
   flex-direction: column;
   padding: 20px;
   gap: 10px;
   border-radius: 20px;
+  max-width: 650px;
 }
 
 .container .header {
@@ -144,16 +169,17 @@ function onDateClick(n: number) {
 
 .container .header .btn-group button {
   border-radius: 8px;
-  background: white;
-  box-shadow: 5px 5px 15px -8px #a5a5a5;
+  background: #4e61ff;
+  box-shadow: 7px 5px 20px -8px #3345ff;
   border: none;
-  width: 50px;
   height: 30px;
   cursor: pointer;
+  color: white;
 }
 
 .container .header .btn-group button:active {
-  background: #4e61ff;
+  background: #2737c9;
+  box-shadow: 8px 5px 20px -8px #2737c9;
   color: white;
   border: none;
 }
@@ -163,6 +189,7 @@ function onDateClick(n: number) {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-auto-rows: minmax(40px, 1fr);
+  gap: 8px;
 }
 
 .container .content .date {
@@ -179,7 +206,7 @@ function onDateClick(n: number) {
 }
 
 .container .content .date.today {
-  background: #ffd643;
+  background: #ff2b45;
   color: white;
 }
 
