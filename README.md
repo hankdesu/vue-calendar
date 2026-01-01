@@ -8,3 +8,4 @@ Feel free to clone the repository.
 - [ ] Add a daily to-do list feature
 - [ ] Add a to-do list page to view the entire history
 - [ ] Light/dark mode
+- [ ] Testing (end-to-end test & unit test)
