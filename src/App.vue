@@ -128,6 +128,7 @@ function onDateClick(n: number) {
 <style scoped>
 .page {
   min-height: 100vh;
+  background: #f1f1f3;
 }
 
 .flex-page {
@@ -140,13 +141,16 @@ function onDateClick(n: number) {
 .container {
   height: 50vh;
   width: 50vw;
-  box-shadow: 7px 3px 30px 3px #e7f4ff;
+  box-shadow:
+    -12px -12px 15px 2px #f8f8f8,
+    10px 10px 15px 2px #d9dadf;
   display: flex;
   flex-direction: column;
   padding: 20px;
   gap: 10px;
-  border-radius: 20px;
+  border-radius: 35px;
   max-width: 650px;
+  background: #f1f1f3;
 }
 
 .container .header {
@@ -188,16 +192,21 @@ function onDateClick(n: number) {
   height: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-auto-rows: minmax(40px, 1fr);
+  align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 
 .container .content .date {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 100%;
   padding: 5px;
+  height: 50px;
+  width: 50px;
+  align-self: center;
+  justify-self: center;
 }
 
 .container .content .date.active {
@@ -206,8 +215,9 @@ function onDateClick(n: number) {
 }
 
 .container .content .date.today {
-  background: #ff2b45;
-  color: white;
+  box-shadow:
+    inset 9px 10px 11px 3px #e0e0e0c9,
+    inset -3px -3px 15px 3px #ffffff;
 }
 
 .clickable {
