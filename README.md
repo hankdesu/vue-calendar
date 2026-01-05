@@ -9,3 +9,5 @@ Feel free to clone the repository.
 - [ ] Add a to-do list page to view the entire history
 - [ ] Light/dark mode
 - [ ] Testing (end-to-end test & unit test)
+- [ ] CI/CD
+- [ ] UI improvement (Neumorphism)
