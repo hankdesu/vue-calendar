@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import NeumorphicButton from './components/NeumorphicButton.vue'
 
 enum OPERATIONS {
   DECREMENT,
@@ -90,11 +91,14 @@ function onDateClick(n: number) {
 <template>
   <section class="page">
     <main class="flex-page">
+      <div class="tool-bar">
+        <NeumorphicButton text="<" @click="onMonthClick(OPERATIONS.DECREMENT)" />
+        <NeumorphicButton text=">" @click="onMonthClick(OPERATIONS.INCREMENT)" />
+      </div>
       <div class="container">
         <div class="header">
           <div class="btn-group">
             <button @click="onYearClick(OPERATIONS.DECREMENT)">Prev year</button>
-            <button @click="onMonthClick(OPERATIONS.DECREMENT)">Prev month</button>
           </div>
           <div class="info">
             <span>{{ year }}</span>
@@ -102,7 +106,6 @@ function onDateClick(n: number) {
           </div>
           <div class="btn-group">
             <button @click="onMonthClick(OPERATIONS.INCREMENT)">Next month</button>
-            <button name="increment" @click="onYearClick(OPERATIONS.INCREMENT)">Next year</button>
           </div>
         </div>
         <div class="content">
@@ -136,6 +139,13 @@ function onDateClick(n: number) {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.tool-bar {
+  display: flex;
+  gap: 40px;
 }
 
 .container {
@@ -216,8 +226,8 @@ function onDateClick(n: number) {
 
 .container .content .date.today {
   box-shadow:
-    inset 9px 10px 11px 3px #e0e0e0c9,
-    inset -3px -3px 15px 3px #ffffff;
+    inset 6px 6px 15px 0px #e0e0e0c9,
+    inset -8px -9px 15px 0px #ffffff;
 }
 
 .clickable {
