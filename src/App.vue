@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import NeumorphicButton from './components/NeumorphicButton.vue'
+import NeumorphicDropdown from './components/NeumorphicDropdown.vue'
 
 enum OPERATIONS {
   DECREMENT,
@@ -22,6 +23,10 @@ const months = [
   'December',
 ]
 const selectedDate = ref<Date | null>(null)
+const yearOptions = Array.from(new Array(3000)).map((_, index) => ({
+  text: `${index + 1}`,
+  value: index + 1,
+}))
 const year = ref(new Date().getFullYear())
 const month = ref(new Date().getMonth())
 const daysOfMonth = computed(() =>
@@ -92,24 +97,35 @@ function onDateClick(n: number) {
   <section class="page">
     <main class="flex-page">
       <div class="tool-bar">
-        <NeumorphicButton text="<" @click="onMonthClick(OPERATIONS.DECREMENT)" />
-        <NeumorphicButton text=">" @click="onMonthClick(OPERATIONS.INCREMENT)" />
+        <NeumorphicButton
+          text="<"
+          :height="60"
+          :width="60"
+          @click="onMonthClick(OPERATIONS.DECREMENT)"
+        />
+        <NeumorphicButton
+          text=">"
+          :height="60"
+          :width="60"
+          @click="onMonthClick(OPERATIONS.INCREMENT)"
+        />
+        <NeumorphicDropdown :options="yearOptions" v-model="year" />
       </div>
       <div class="container">
         <div class="header">
-          <div class="btn-group">
+          <!-- <div class="btn-group">
             <button @click="onYearClick(OPERATIONS.DECREMENT)">Prev year</button>
-          </div>
+          </div> -->
           <div class="info">
             <span>{{ year }}</span>
             <span>{{ months[month] }}</span>
           </div>
-          <div class="btn-group">
+          <!-- <div class="btn-group">
             <button @click="onMonthClick(OPERATIONS.INCREMENT)">Next month</button>
-          </div>
+          </div> -->
         </div>
         <div class="content">
-          <div class="date" v-for="(day, index) in daysOfWeek" :key="index">
+          <div class="date header" v-for="(day, index) in daysOfWeek" :key="index">
             {{ day }}
           </div>
           <div class="date" v-for="(_, index) in firstDayOfMonth" :key="index"></div>
@@ -161,19 +177,22 @@ function onDateClick(n: number) {
   border-radius: 35px;
   max-width: 650px;
   background: #f1f1f3;
+  color: #333333;
 }
 
 .container .header {
   height: 40px;
   min-height: 40px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
 .container .header .info {
   display: flex;
   gap: 10px;
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .container .header .btn-group {
@@ -205,6 +224,10 @@ function onDateClick(n: number) {
   align-items: center;
   justify-content: center;
   gap: 8px;
+}
+
+.container .content .header {
+  font-weight: 500;
 }
 
 .container .content .date {

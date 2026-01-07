@@ -34,7 +34,7 @@ button {
     4px 4px 20px 0px #dcdcdf;
   border: none;
   cursor: pointer;
-  color: #000000;
+  color: #333333;
   font-size: 20px;
 }
 
