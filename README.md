@@ -4,6 +4,8 @@ This is a simple project for practicing Vue.js. I’m not using any AI agent too
 
 Feel free to clone the repository.
 
+**Developer murmur: No plan for RWD because it's a side project and I don't wanna put too much effort on supporting different resolution, please forgive me.**
+
 ## To-do List
 - [ ] Add a daily to-do list feature
 - [ ] Add a to-do list page to view the entire history
