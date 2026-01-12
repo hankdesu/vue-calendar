@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, useTemplateRef } from 'vue'
+import IconChevronDown from './icon/IconChevronDown.vue'
 
 interface Props {
   options: Option[]
@@ -43,7 +44,10 @@ function onSelect(value: string | number) {
 
 <template>
   <div class="dropdown-container" :class="{ expand }">
-    <button @click="onExpand">{{ selectedValue?.text }}</button>
+    <div class="btn-group">
+      <button @click="onExpand">{{ selectedValue?.text }}</button>
+      <IconChevronDown class="expand-icon" :class="{ rotate: expand }" :size="28" />
+    </div>
     <div class="dropdown-menu-wrapper">
       <div class="dropdown-menu" ref="dropdown-menu">
         <div
@@ -84,6 +88,20 @@ function onSelect(value: string | number) {
   max-height: 280px;
 }
 
+.dropdown-container .btn-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expand-icon {
+  transition: transform 0.4s ease-out;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
 .dropdown-container button {
   font-size: 20px;
   font-weight: 500;
@@ -91,7 +109,6 @@ function onSelect(value: string | number) {
   cursor: pointer;
   border: none;
   height: 60px;
-  width: 320px;
   border-radius: 40px;
 }
 
@@ -110,7 +127,7 @@ function onSelect(value: string | number) {
 }
 
 .dropdown-menu {
-  padding: 0 20px 0 20px;
+  padding: 0 20px 20px 20px;
   max-height: 220px;
   overflow-y: scroll;
   overflow-x: hidden;

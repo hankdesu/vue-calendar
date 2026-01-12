@@ -9,18 +9,18 @@ enum OPERATIONS {
 }
 const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
 const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
+  { text: 'January', value: 0 },
+  { text: 'February', value: 1 },
+  { text: 'March', value: 2 },
+  { text: 'April', value: 3 },
+  { text: 'May', value: 4 },
+  { text: 'June', value: 5 },
+  { text: 'July', value: 6 },
+  { text: 'August', value: 7 },
+  { text: 'September', value: 8 },
+  { text: 'October', value: 9 },
+  { text: 'November', value: 10 },
+  { text: 'December', value: 11 },
 ]
 const selectedDate = ref<Date | null>(null)
 const yearOptions = Array.from(new Array(3000)).map((_, index) => ({
@@ -47,14 +47,6 @@ const activeDate = computed(() => {
 
   return selectedDate.value.getDate()
 })
-
-function onYearClick(operation: OPERATIONS) {
-  if (operation === OPERATIONS.INCREMENT) {
-    year.value++
-  } else if (operation === OPERATIONS.DECREMENT && year.value > 0) {
-    year.value--
-  }
-}
 
 function onMonthClick(operation: OPERATIONS) {
   if (operation === OPERATIONS.INCREMENT) {
@@ -97,33 +89,25 @@ function onDateClick(n: number) {
   <section class="page">
     <main class="flex-page">
       <div class="tool-bar">
-        <NeumorphicButton
-          text="<"
-          :height="60"
-          :width="60"
-          @click="onMonthClick(OPERATIONS.DECREMENT)"
-        />
-        <NeumorphicButton
-          text=">"
-          :height="60"
-          :width="60"
-          @click="onMonthClick(OPERATIONS.INCREMENT)"
-        />
+        <div class="tool-btn-group">
+          <NeumorphicButton
+            text="<"
+            :height="60"
+            :width="60"
+            @click="onMonthClick(OPERATIONS.DECREMENT)"
+          />
+          <NeumorphicButton
+            text=">"
+            :height="60"
+            :width="60"
+            @click="onMonthClick(OPERATIONS.INCREMENT)"
+          />
+        </div>
+        <NeumorphicDropdown :options="months" v-model="month" />
         <NeumorphicDropdown :options="yearOptions" v-model="year" />
       </div>
       <div class="container">
-        <div class="header">
-          <!-- <div class="btn-group">
-            <button @click="onYearClick(OPERATIONS.DECREMENT)">Prev year</button>
-          </div> -->
-          <div class="info">
-            <span>{{ year }}</span>
-            <span>{{ months[month] }}</span>
-          </div>
-          <!-- <div class="btn-group">
-            <button @click="onMonthClick(OPERATIONS.INCREMENT)">Next month</button>
-          </div> -->
-        </div>
+        <div class="header"></div>
         <div class="content">
           <div class="date header" v-for="(day, index) in daysOfWeek" :key="index">
             {{ day }}
@@ -160,6 +144,13 @@ function onDateClick(n: number) {
 }
 
 .tool-bar {
+  width: 50vw;
+  display: flex;
+  gap: 40px;
+  justify-content: space-between;
+}
+
+.tool-bar .tool-btn-group {
   display: flex;
   gap: 40px;
 }
