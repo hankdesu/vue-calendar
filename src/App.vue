@@ -148,6 +148,7 @@ function onDateClick(n: number) {
   display: flex;
   gap: 40px;
   justify-content: space-between;
+  max-width: 650px;
 }
 
 .tool-bar .tool-btn-group {
@@ -156,7 +157,6 @@ function onDateClick(n: number) {
 }
 
 .container {
-  height: 50vh;
   width: 50vw;
   box-shadow:
     -12px -12px 15px 2px #f8f8f8,
